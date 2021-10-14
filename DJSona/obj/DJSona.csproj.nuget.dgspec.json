@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Repositories\\DJSona\\DJSona\\DJSona\\DJSona.csproj": {}
+    "E:\\Repositories\\DJSona\\DJSona\\DJSona.csproj": {}
   },
   "projects": {
-    "D:\\Repositories\\DJSona\\DJSona\\DJSona\\DJSona.csproj": {
+    "E:\\Repositories\\DJSona\\DJSona\\DJSona.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Repositories\\DJSona\\DJSona\\DJSona\\DJSona.csproj",
+        "projectUniqueName": "E:\\Repositories\\DJSona\\DJSona\\DJSona.csproj",
         "projectName": "DJSona",
-        "projectPath": "D:\\Repositories\\DJSona\\DJSona\\DJSona\\DJSona.csproj",
-        "packagesPath": "C:\\Users\\olohag\\.nuget\\packages\\",
-        "outputPath": "D:\\Repositories\\DJSona\\DJSona\\DJSona\\obj\\",
+        "projectPath": "E:\\Repositories\\DJSona\\DJSona\\DJSona.csproj",
+        "packagesPath": "C:\\Users\\olofh\\.nuget\\packages\\",
+        "outputPath": "E:\\Repositories\\DJSona\\DJSona\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\olohag\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\olofh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,7 +25,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net50": {
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -36,13 +37,58 @@
         }
       },
       "frameworks": {
-        "net50": {
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win7-x86": {
-          "#import": []
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Discord.Net": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "Discord.Net.Commands": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "Discord.Net.Core": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "Discord.Net.WebSocket": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "Discord.Net.Webhook": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "NetEscapades.Configuration.Yaml": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
