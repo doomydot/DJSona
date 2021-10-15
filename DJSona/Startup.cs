@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Discord.WebSocket;
+using Discord.Net;
+using Discord.Commands;
+using DJSona.Services;
+
 
 namespace DJSona
 {
@@ -16,14 +21,14 @@ namespace DJSona
 		{
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(AppContext.BaseDirectory)
-				.AddYamlFile("_config.yml"));
+				.AddYamlFile("_config.yml");
 			Configuration = builder.Build();
 		}
 
 		public static async Task RunAsync(string[] args)
 		{
 			var startup = new Startup(args);
-			await startup.StartAsync();
+			await startup.RunAsync();
 		}
 
 		public async Task RunAsync()
@@ -36,6 +41,24 @@ namespace DJSona
 
 			await provider.GetRequiredService<StartupService>().StartAsync();
 			await Task.Delay(-1);
+		}
+
+		private void ConfigureServices(IServiceCollection services)
+		{
+			services.AddSingleton(new DiscordSocketClient(new DiscordSocketConfig
+			{
+				LogLevel = Discord.LogSeverity.Verbose,
+				MessageCacheSize = 1000
+			}))
+				.AddSingleton(new CommandService(new CommandServiceConfig
+				{
+					LogLevel = Discord.LogSeverity.Verbose,
+					DefaultRunMode = RunMode.Async,
+					CaseSensitiveCommands = false
+				}))
+				.AddSingleton<CommandHandler>()
+				.AddSingleton<StartupService>()
+				.AddSingleton(Configuration);
 		}
 	}
 }
