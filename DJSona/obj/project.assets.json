@@ -1788,19 +1788,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\olofh\\.nuget\\packages\\": {}
+    "C:\\Users\\olohag\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Repositories\\DJSona\\DJSona\\DJSona.csproj",
+      "projectUniqueName": "D:\\Repositories\\DJSona\\DJSona\\DJSona.csproj",
       "projectName": "DJSona",
-      "projectPath": "E:\\Repositories\\DJSona\\DJSona\\DJSona.csproj",
-      "packagesPath": "C:\\Users\\olofh\\.nuget\\packages\\",
-      "outputPath": "E:\\Repositories\\DJSona\\DJSona\\obj\\",
+      "projectPath": "D:\\Repositories\\DJSona\\DJSona\\DJSona.csproj",
+      "packagesPath": "C:\\Users\\olohag\\.nuget\\packages\\",
+      "outputPath": "D:\\Repositories\\DJSona\\DJSona\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\olofh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\olohag\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
