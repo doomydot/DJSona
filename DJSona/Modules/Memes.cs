@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DJSona.Modules
 {
-	public class Memes : ModuleBase
+	public class Memes : ModuleBase<SocketCommandContext>
 	{
 		[Command("meme")]
 		public async Task Meme(string subreddit = null)
@@ -22,6 +23,7 @@ namespace DJSona.Modules
 				await Context.Channel.SendMessageAsync("Your memes are in another castle!");
 				return;
 			}
+			await Context.Channel.TriggerTypingAsync();
 			JArray arr = JArray.Parse(result);
 			JObject post = JObject.Parse(arr[0]["data"]["children"][0]["data"].ToString());
 

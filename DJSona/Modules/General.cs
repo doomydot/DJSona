@@ -1,19 +1,27 @@
+﻿using Discord;
 using Discord.Commands;
-using Discord;
 using Discord.WebSocket;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DJSona.Modules
 {
-    public class General : ModuleBase
-    {
+	public class General : ModuleBase<SocketCommandContext>
+	{
+        [Command("ping")]
+        public async Task Ping()
+		{
+            await ReplyAsync("Pong!");
+		}
+
         [Command("info")]
-        public async Task Info(SocketGuildUser user = null)
+        public async Task InfoAsync(SocketGuildUser user = null)
         {
-            if(user == null) user = (Context.User as SocketGuildUser);
+            if (user == null) user = (Context.User as SocketGuildUser);
+            await Context.Channel.TriggerTypingAsync();
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl(user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl())
                 .WithTitle($"{user.Username} Information")
@@ -29,8 +37,9 @@ namespace DJSona.Modules
         }
 
         [Command("server")]
-        public async Task Server()
+        public async Task ServerAsync()
         {
+            await Context.Channel.TriggerTypingAsync();
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl(Context.Guild.IconUrl)
                 .WithTitle($"{Context.Guild.Name} Information")

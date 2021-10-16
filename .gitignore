@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Ignore Bot settings file that contains the discord token.
+DJSona/appsettings.json
+
+
 # User-specific files
 *.rsuser
 *.suo
