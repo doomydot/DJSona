@@ -10,12 +10,6 @@ namespace DJSona.Modules
 {
     public class General : ModuleBase
     {
-        [Command("ping")]
-        public async Task Ping()
-        {
-            await Context.Channel.SendMessageAsync("pong");
-        }
-
         [Command("info")]
         public async Task Info(SocketGuildUser user = null)
         {
@@ -32,19 +26,6 @@ namespace DJSona.Modules
                 .WithCurrentTimestamp();
             var embed = builder.Build();
             await Context.Channel.SendMessageAsync(null, false, embed);
-        }
-
-        [Command("purge")]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        public async Task Purge(int amount)
-        {
-            var messages = await Context.Channel.GetMessagesAsync(amount + 1).FlattenAsync();
-            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
-
-            var message = await Context.Channel.SendMessageAsync($"{messages.Count() - 1} messages deleted successfully!");
-            await Task.Delay(2500);
-            await message.DeleteAsync();
-        
         }
 
         [Command("server")]
