@@ -12,6 +12,7 @@ using Victoria.Responses.Search;
 using Victoria.Decoder;
 using Victoria.EventArgs;
 using Victoria.Payloads;
+using VictoriaEx
 
 namespace DJSona.Modules
 {
@@ -24,8 +25,32 @@ namespace DJSona.Modules
 			_lavaNode = lavaNode;
 		}
 
+        private async Task OnTrackEnded(TrackEndedEventArgs args)
+        {
+            /*if (!args.ShouldPlayNext())
+            {
+                return;
+            }*/
 
-        
+            var player = args.Player;
+            if (!player.Queue.TryDequeue(out var queueable))
+            {
+                await player.TextChannel.SendMessageAsync("Queue completed!");
+                return;
+            }
+
+            if (!(queueable is LavaTrack track))
+            {
+                await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
+                return;
+            }
+
+            await args.Player.PlayAsync(track);
+            await args.Player.TextChannel.SendMessageAsync(
+                $"{args.Reason}: {args.Track.Title}\n▶️ Now playing: **{track.Title}**");
+        }
+
+
         [Command("Play")]
         public async Task PlayAsync([Remainder] string query)
         {
