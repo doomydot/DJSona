@@ -29,6 +29,8 @@ namespace DJSona.Modules
         [Command("Play")]
         public async Task PlayAsync([Remainder] string query)
         {
+            await JoinAsync();
+
             if (string.IsNullOrWhiteSpace(query))
             {
                 await ReplyAsync("Please provide search terms.");
@@ -62,13 +64,13 @@ namespace DJSona.Modules
                         player.Queue.Enqueue(track);
                     }
 
-                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                    await ReplyAsync($"Queued **{searchResponse.Tracks.Count}** tracks.");
                 }
                 else
                 {
                     var track = searchResponse.Tracks.ElementAt(0);
                     player.Queue.Enqueue(track);
-                    await ReplyAsync($"Enqueued: {track.Title}");
+                    await ReplyAsync($"Queued: **{track.Title}**");
                 }
             }
             else
@@ -82,7 +84,7 @@ namespace DJSona.Modules
                         if (i == 0)
                         {
                             await player.PlayAsync(track);
-                            await ReplyAsync($"Now Playing: {track.Title}");
+                            await ReplyAsync($"▶️ Now Playing: **{track.Title}**");
                         }
                         else
                         {
@@ -90,12 +92,12 @@ namespace DJSona.Modules
                         }
                     }
 
-                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                    await ReplyAsync($"Queued **{searchResponse.Tracks.Count}** tracks.");
                 }
                 else
                 {
                     await player.PlayAsync(track);
-                    await ReplyAsync($"Now Playing: {track.Title}");
+                    await ReplyAsync($"▶️ Now Playing: **{track.Title}**");
                 }
             }
             
@@ -106,13 +108,16 @@ namespace DJSona.Modules
         [Command("Join")]
         public async Task JoinAsync()
         {
+            
+
+            var voiceState = Context.User as IVoiceState;
             if (_lavaNode.HasPlayer(Context.Guild))
             {
+                if (voiceState?.VoiceChannel == _lavaNode.GetPlayer(Context.Guild).VoiceChannel) return;
                 await ReplyAsync("I'm already connected to a voice channel!");
                 return;
             }
 
-            var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
                 await ReplyAsync("You must be connected to a voice channel!");
@@ -157,12 +162,12 @@ namespace DJSona.Modules
             if (player.Queue.Count == 0)
 			{
                 await player.StopAsync();
-                await ReplyAsync("Skipped, but there are no more songs in the queue!");
+                await ReplyAsync("⏹️ Skipped, but there are no more songs in the queue!");
                 return;
 			}
 
             await player.SkipAsync();
-            await ReplyAsync($"Skipped! Now playing {player.Track.Title}");
+            await ReplyAsync($"⏭️ Skipped! \n▶️ Now playing {player.Track.Title}");
 		}
     }
 }
