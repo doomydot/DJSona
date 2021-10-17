@@ -129,5 +129,40 @@ namespace DJSona.Modules
                 await ReplyAsync(exception.Message);
             }
         }
+
+        [Command("Skip")]
+        public async Task Skip()
+		{
+            var voiceState = Context.User as IVoiceState;
+            if (voiceState?.VoiceChannel == null)
+			{
+                await ReplyAsync("You must be connected to a voice channel!");
+                return;
+			}
+
+            if (!_lavaNode.HasPlayer(Context.Guild))
+            {
+                await ReplyAsync("I'm not connected to a voice channel!");
+                return;
+            }
+
+            var player = _lavaNode.GetPlayer(Context.Guild);
+
+            if (voiceState.VoiceChannel != player.VoiceChannel)
+			{
+                await ReplyAsync("You need to be in the same voice channel as me!");
+                return;
+			}
+
+            if (player.Queue.Count == 0)
+			{
+                await player.StopAsync();
+                await ReplyAsync("Skipped, but there are no more songs in the queue!");
+                return;
+			}
+
+            await player.SkipAsync();
+            await ReplyAsync($"Skipped! Now playing {player.Track.Title}");
+		}
     }
 }
