@@ -12,7 +12,6 @@ using Victoria.Responses.Search;
 using Victoria.Decoder;
 using Victoria.EventArgs;
 using Victoria.Payloads;
-using VictoriaEx
 
 namespace DJSona.Modules
 {
