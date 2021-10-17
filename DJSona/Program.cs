@@ -10,6 +10,7 @@ using Discord;
 using Discord.Commands;
 using DJSona.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Victoria;
 
 namespace DJSona
 {
@@ -78,7 +79,11 @@ namespace DJSona
 				.ConfigureServices((context, services) =>
 				{
 					services
-						.AddHostedService<CommandHandler>();
+						.AddHostedService<CommandHandler>()
+						.AddLavaNode(x =>
+						{
+							x.SelfDeaf = true;
+						});
 				})
 				.UseConsoleLifetime();
 

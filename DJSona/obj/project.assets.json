@@ -739,6 +739,15 @@
           "ref/netstandard1.3/System.Text.Encoding.dll": {}
         }
       },
+      "System.Text.Json/5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/System.Text.Json.dll": {}
+        }
+      },
       "System.Threading/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -761,6 +770,20 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
+        }
+      },
+      "Victoria/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Discord.Net.WebSocket": "2.4.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.2",
+          "System.Text.Json": "5.0.2"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Victoria.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Victoria.dll": {}
         }
       },
       "YamlDotNet/9.1.0": {
@@ -2515,6 +2538,28 @@
         "system.text.encoding.nuspec"
       ]
     },
+    "System.Text.Json/5.0.2": {
+      "sha512": "I47dVIGiV6SfAyppphxqupertT/5oZkYLDCX6vC3HpOI4ZLjyoKAreUoem2ie6G0RbRuFrlqz/PcTQjfb2DOfQ==",
+      "type": "package",
+      "path": "system.text.json/5.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Text.Json.dll",
+        "lib/net461/System.Text.Json.xml",
+        "lib/netcoreapp3.0/System.Text.Json.dll",
+        "lib/netcoreapp3.0/System.Text.Json.xml",
+        "lib/netstandard2.0/System.Text.Json.dll",
+        "lib/netstandard2.0/System.Text.Json.xml",
+        "system.text.json.5.0.2.nupkg.sha512",
+        "system.text.json.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Threading/4.3.0": {
       "sha512": "VkUS0kOBcUf3Wwm0TSbrevDDZ6BlM+b/HRiapRFWjM5O0NS0LviG0glKmFK+hhPDd1XFeSdU1GmlLhb2CoVpIw==",
       "type": "package",
@@ -2654,6 +2699,20 @@
         "system.threading.tasks.nuspec"
       ]
     },
+    "Victoria/5.2.3": {
+      "sha512": "0RjXK0PZv2Fqf6QoTDH16QWv76sa6P1V/tMJovk+vH63FIbef5zlVYDm1y+Wiu6WX1b5fn7c9LEx8RbW0pPYcg==",
+      "type": "package",
+      "path": "victoria/5.2.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Logo.png",
+        "lib/netcoreapp3.1/Victoria.dll",
+        "lib/netcoreapp3.1/Victoria.xml",
+        "victoria.5.2.3.nupkg.sha512",
+        "victoria.nuspec"
+      ]
+    },
     "YamlDotNet/9.1.0": {
       "sha512": "fuvGXU4Ec5HrsmEc+BiFTNPCRf1cGBI2kh/3RzMWgddM2M4ALhbSPoI3X3mhXZUD1qqQd9oSkFAtWjpz8z9eRg==",
       "type": "package",
@@ -2691,7 +2750,8 @@
       "Microsoft.Extensions.Configuration >= 5.0.0",
       "Microsoft.Extensions.DependencyInjection >= 5.0.2",
       "Microsoft.Extensions.Hosting >= 5.0.0",
-      "NetEscapades.Configuration.Yaml >= 2.1.0"
+      "NetEscapades.Configuration.Yaml >= 2.1.0",
+      "Victoria >= 5.2.3"
     ]
   },
   "packageFolders": {
@@ -2776,6 +2836,10 @@
           "NetEscapades.Configuration.Yaml": {
             "target": "Package",
             "version": "[2.1.0, )"
+          },
+          "Victoria": {
+            "target": "Package",
+            "version": "[5.2.3, )"
           }
         },
         "imports": [

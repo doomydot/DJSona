@@ -3,6 +3,7 @@ using Discord.Addons.Hosting;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +11,46 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Victoria;
 
 namespace DJSona.Services
 {
-	public class CommandHandler : InitializedService
+	public class CommandHandler : DiscordClientService
 	{
 		private readonly IServiceProvider provider;
 		private readonly DiscordSocketClient client;
 		private readonly CommandService service;
 		private readonly IConfiguration configuration;
+		private readonly LavaNode lavaNode;
 
-		public CommandHandler(IServiceProvider provider, DiscordSocketClient client, CommandService service, IConfiguration configuration)
+		public CommandHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<CommandHandler> logger, CommandService service, IConfiguration configuration, LavaNode lavaNode) : base(client, logger)
 		{
 			this.provider = provider;
-			this.client = client;
 			this.service = service;
 			this.configuration = configuration;
+			this.lavaNode = lavaNode;
+
 		}
 
-		public override async Task InitializeAsync(CancellationToken cancellationToken)
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 		{
-			client.MessageReceived += OnMessageReceived;
+			Client.MessageReceived += OnMessageReceived;
+			Client.Ready += OnReadyAsync;
 			service.CommandExecuted += OnCommandExecuted;
+
 			await service.AddModulesAsync(Assembly.GetEntryAssembly(), provider);
+		}
+
+		private async Task OnReadyAsync()
+		{
+			// Avoid calling ConnectAsync again if it's already connected 
+			// (It throws InvalidOperationException if it's already connected).
+			if (!lavaNode.IsConnected)
+			{
+				await lavaNode.ConnectAsync();
+			}
+
+			// Other ready related stuff
 		}
 
 		private async Task OnCommandExecuted(Optional<CommandInfo> commandInfo, ICommandContext commandContext, IResult result)

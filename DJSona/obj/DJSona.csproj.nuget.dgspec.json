@@ -83,6 +83,10 @@
             "NetEscapades.Configuration.Yaml": {
               "target": "Package",
               "version": "[2.1.0, )"
+            },
+            "Victoria": {
+              "target": "Package",
+              "version": "[5.2.3, )"
             }
           },
           "imports": [
