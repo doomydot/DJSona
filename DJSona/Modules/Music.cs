@@ -7,6 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Victoria;
 using Victoria.Enums;
+using Victoria.Responses;
+using Victoria.Responses.Search;
+using Victoria.Decoder;
+using Victoria.EventArgs;
+using Victoria.Payloads;
 
 namespace DJSona.Modules
 {
@@ -20,11 +25,11 @@ namespace DJSona.Modules
 		}
 
 
-        /*
+        
         [Command("Play")]
-        public async Task PlayAsync([Remainder] string searchQuery)
+        public async Task PlayAsync([Remainder] string query)
         {
-            if (string.IsNullOrWhiteSpace(searchQuery))
+            if (string.IsNullOrWhiteSpace(query))
             {
                 await ReplyAsync("Please provide search terms.");
                 return;
@@ -36,65 +41,64 @@ namespace DJSona.Modules
                 return;
             }
 
-            var queries = searchQuery.Split(' ');
-            foreach (var query in queries)
+            var queries = query.Split(' ');
+            
+            var searchResponse = await _lavaNode.SearchYouTubeAsync(query);
+            if (searchResponse.Status == SearchStatus.LoadFailed ||
+                searchResponse.Status == SearchStatus.LoadFailed)
             {
-                var searchResponse = await _lavaNode.SearchAsync(query);
-                if (searchResponse.LoadStatus == LoadStatus.LoadFailed ||
-                    searchResponse.LoadStatus == LoadStatus.NoMatches)
+                await ReplyAsync($"I wasn't able to find anything for `{query}`.");
+                return;
+            }
+
+            var player = _lavaNode.GetPlayer(Context.Guild);
+
+            if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused)
+            {
+                if (!string.IsNullOrWhiteSpace(searchResponse.Playlist.Name))
                 {
-                    await ReplyAsync($"I wasn't able to find anything for `{query}`.");
-                    return;
-                }
-
-                var player = _lavaNode.GetPlayer(Context.Guild);
-
-                if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused)
-                {
-                    if (!string.IsNullOrWhiteSpace(searchResponse.Playlist.Name))
+                    foreach (var track in searchResponse.Tracks)
                     {
-                        foreach (var track in searchResponse.Tracks)
-                        {
-                            player.Queue.Enqueue(track);
-                        }
-
-                        await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
-                    }
-                    else
-                    {
-                        var track = searchResponse.Tracks[0];
                         player.Queue.Enqueue(track);
-                        await ReplyAsync($"Enqueued: {track.Title}");
                     }
+
+                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
                 }
                 else
                 {
-                    var track = searchResponse.Tracks[0];
-
-                    if (!string.IsNullOrWhiteSpace(searchResponse.Playlist.Name))
-                    {
-                        for (var i = 0; i < searchResponse.Tracks.Count; i++)
-                        {
-                            if (i == 0)
-                            {
-                                await player.PlayAsync(track);
-                                await ReplyAsync($"Now Playing: {track.Title}");
-                            }
-                            else
-                            {
-                                player.Queue.Enqueue(searchResponse.Tracks[i]);
-                            }
-                        }
-
-                        await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
-                    }
-                    else
-                    {
-                        await player.PlayAsync(track);
-                        await ReplyAsync($"Now Playing: {track.Title}");
-                    }
+                    var track = searchResponse.Tracks.ElementAt(0);
+                    player.Queue.Enqueue(track);
+                    await ReplyAsync($"Enqueued: {track.Title}");
                 }
             }
+            else
+            {
+                var track = searchResponse.Tracks.ElementAt(0);
+
+                if (!string.IsNullOrWhiteSpace(searchResponse.Playlist.Name))
+                {
+                    for (var i = 0; i < searchResponse.Tracks.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            await player.PlayAsync(track);
+                            await ReplyAsync($"Now Playing: {track.Title}");
+                        }
+                        else
+                        {
+                            player.Queue.Enqueue(searchResponse.Tracks.ElementAt(i));
+                        }
+                    }
+
+                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                }
+                else
+                {
+                    await player.PlayAsync(track);
+                    await ReplyAsync($"Now Playing: {track.Title}");
+                }
+            }
+            
 
 
         }
@@ -124,6 +128,6 @@ namespace DJSona.Modules
             {
                 await ReplyAsync(exception.Message);
             }
-        }*/
+        }
     }
 }

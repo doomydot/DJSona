@@ -18,7 +18,7 @@ namespace DJSona.Services
 	public class CommandHandler : DiscordClientService
 	{
 		private readonly IServiceProvider provider;
-		private readonly DiscordSocketClient client;
+		
 		private readonly CommandService service;
 		private readonly IConfiguration configuration;
 		private readonly LavaNode lavaNode;
@@ -67,9 +67,9 @@ namespace DJSona.Services
 
 			// Returns if user is not using the bot prefix nor is querying the bot for it's prefix
 			var argPos = 0;
-			if (!message.HasStringPrefix(this.configuration["Prefix"], ref argPos) && !message.HasMentionPrefix(this.client.CurrentUser, ref argPos)) return;
+			if (!message.HasStringPrefix(this.configuration["Prefix"], ref argPos) && !message.HasMentionPrefix(Client.CurrentUser, ref argPos)) return;
 
-			var context = new SocketCommandContext(client, message);
+			var context = new SocketCommandContext(Client, message);
 			await service.ExecuteAsync(context, argPos, provider);
 
 		}
